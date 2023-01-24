@@ -28,9 +28,10 @@ class AuthController extends Controller
 
         $request['password'] = Hash::make($request['password']);
         $request['remember_token'] = Str::random(10);
+        $request['type'] = config('constant.user_type.normal');
 
         $user = User::create($request->toArray());
-        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+        $token = $user->createToken(config('constant.passport_type.password_grant'))->accessToken;
 
         $response = ['token' => $token];
         return $this->successResponse($response, "Registration success!");
@@ -50,7 +51,7 @@ class AuthController extends Controller
         $user = User::where('username', $request->username)->orWhere('email', $request->username)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+                $token = $user->createToken(config('constant.passport_type.password_grant'))->accessToken;
                 $response = ['token' => $token];
 
                 return $this->successResponse($response, "Login success!");

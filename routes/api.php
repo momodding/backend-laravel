@@ -24,3 +24,11 @@ Route::prefix('/auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
     Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
+
+Route::prefix('/test')->middleware(['auth:api', 'api.admin'])->group(function () {
+    Route::get('/article', function () {
+        return response(["data" => 'OK', "message" => 'ok'], 200, [
+            "Content-Type" => "application/json"
+        ]);
+    });
+});
