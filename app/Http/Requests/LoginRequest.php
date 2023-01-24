@@ -6,17 +6,15 @@ use App\Traits\ApiResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
-class RegistrationRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     use ApiResponseTrait;
 
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:25|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'username' => 'required|string',
+            'password' => 'required|string',
         ];
     }
 
