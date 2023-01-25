@@ -24,4 +24,14 @@ class Posts extends Model
     {
         return $this->belongsTo(User::class, 'post_by', 'id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(PostComments::class, 'posts_id');
+    }
+
+    public function posted_by()
+    {
+        return $this->users()->select(['id', 'name']);
+    }
 }

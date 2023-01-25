@@ -27,7 +27,11 @@ Route::prefix('/auth')->group(function () {
 });
 
 Route::prefix('/post')->middleware('auth:api')->group(function () {
+    Route::get('/{postId}', [PostController::class, 'showPostDetail'])->name('post.get-post-detail');
+    Route::get('/{postId}/comment', [PostController::class, 'showPostComment'])->name('post.get-post-comment');
     Route::post('/', [PostController::class, 'createPost'])->name('post.create-post');
+    Route::post('/{postId}/comment', [PostController::class, 'commentPost'])->name('post.comment-post');
+    Route::post('/{postId}/comment/{commentId}/reply', [PostController::class, 'replyCommenttedPost'])->name('post.reply-commentted-post');
 });
 
 Route::prefix('/test')->middleware(['auth:api', 'api.admin'])->group(function () {

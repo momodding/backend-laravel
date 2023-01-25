@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->bigIncrements('id')->change();
+            $table->bigInteger('post_by')->change();
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropIfExists('id');
+            $table->dropIfExists('post_by');
         });
     }
 };
