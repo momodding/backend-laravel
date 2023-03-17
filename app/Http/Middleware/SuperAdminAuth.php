@@ -2,12 +2,15 @@
 
 namespace App\Http\Middleware;
 
+use App\Traits\ApiResponseTrait;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SuperAdminAuth
 {
+    use ApiResponseTrait;
+
     /**
      * Handle an incoming request.
      *

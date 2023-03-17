@@ -6,6 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
 use App\Traits\ApiResponseTrait;
+use Cookie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,8 +25,9 @@ class AuthController extends Controller
         $user = User::create($request);
         $token = $user->createToken(config('constant.passport_type.password_grant'))->accessToken;
 
-        $response = ['token' => $token];
-        return $this->successResponse($response, "Registration success!");
+        $response = ['accessToken' => $token];
+        $cookie = Cookie::make('accessToken', $token, 3600);
+        return $this->successResponse($response, "Registration success!")->cookie($cookie);
     }
 
     public function login(LoginRequest $request)
@@ -34,9 +36,10 @@ class AuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken(config('constant.passport_type.password_grant'))->accessToken;
-                $response = ['token' => $token];
+                $response = ['accessToken' => $token];
 
-                return $this->successResponse($response, "Login success!");
+                $cookie = Cookie::make('accessToken', $token, 3600);
+                return $this->successResponse($response, "Login success!")->cookie($cookie);
             } else {
                 return $this->errorResponse([], "Please check your username or password!", 400);
             }
