@@ -52,6 +52,8 @@ class AuthController extends Controller
     {
         $token = $request->user()->token();
         $token->revoke();
-        return $this->successResponse(null, "'Logout' success!");
+
+        $cookie = Cookie::forget('accessToken');
+        return $this->successResponse(null, "'Logout' success!")->cookie($cookie);
     }
 }
